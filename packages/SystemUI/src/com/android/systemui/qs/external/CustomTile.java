@@ -498,15 +498,15 @@ public class CustomTile extends QSTileImpl<State> implements TileChangeListener 
     }
 
     public static class Builder {
-        final Lazy<QSHost> mQSHostLazy;
-        final Looper mBackgroundLooper;
-        final Handler mMainHandler;
-        private final FalsingManager mFalsingManager;
-        final MetricsLogger mMetricsLogger;
-        final StatusBarStateController mStatusBarStateController;
-        final ActivityStarter mActivityStarter;
-        final QSLogger mQSLogger;
-        final CustomTileStatePersister mCustomTileStatePersister;
+        public final Lazy<QSHost> mQSHostLazy;
+        public final Looper mBackgroundLooper;
+        public final Handler mMainHandler;
+        public final FalsingManager mFalsingManager;
+        public MetricsLogger mMetricsLogger;
+        public StatusBarStateController mStatusBarStateController;
+        public final ActivityStarter mActivityStarter;
+        public final QSLogger mQSLogger;
+        public final CustomTileStatePersister mCustomTileStatePersister;
 
         Context mUserContext;
         String mSpec = "";

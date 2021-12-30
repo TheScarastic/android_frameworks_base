@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.R;
+import com.android.systemui.Dependency;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.plugins.ActivityStarter;
@@ -43,8 +44,6 @@ import com.android.systemui.qs.tileimpl.QSTileImpl;
 import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.util.settings.SecureSettings;
 
-import javax.inject.Inject;
-
 public class AODTile extends QSTileImpl<BooleanState> implements
         BatteryController.BatteryStateChangeCallback {
 
@@ -53,7 +52,6 @@ public class AODTile extends QSTileImpl<BooleanState> implements
 
     private final SecureSetting mSetting;
 
-    @Inject
     public AODTile(
             QSHost host,
             @Background Looper backgroundLooper,
@@ -62,22 +60,20 @@ public class AODTile extends QSTileImpl<BooleanState> implements
             MetricsLogger metricsLogger,
             StatusBarStateController statusBarStateController,
             ActivityStarter activityStarter,
-            QSLogger qsLogger,
-            SecureSettings secureSettings,
-            BatteryController batteryController
+            QSLogger qsLogger
     ) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
 
-        mSetting = new SecureSetting(secureSettings, mHandler, Settings.Secure.DOZE_ALWAYS_ON) {
+        mSetting = new SecureSetting(host.getSecureSettings(), mHandler, Settings.Secure.DOZE_ALWAYS_ON) {
             @Override
             protected void handleValueChanged(int value, boolean observedChange) {
                 handleRefreshState(value);
             }
         };
 
-        mBatteryController = batteryController;
-        batteryController.observe(getLifecycle(), this);
+        mBatteryController = Dependency.get(BatteryController.class);
+        mBatteryController.observe(getLifecycle(), this);
     }
 
     @Override

@@ -98,16 +98,12 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<DeviceControlsTile> mDeviceControlsTileProvider;
     private final Provider<AlarmTile> mAlarmTileProvider;
     private final Provider<QuickAccessWalletTile> mQuickAccessWalletTileProvider;
-    private final Provider<AmbientDisplayTile> mAmbientDisplayTileProvider;
-    private final Provider<AODTile> mAODTileProvider;
-    private final Provider<CaffeineTile> mCaffeineTileProvider;
-    private final Provider<HeadsUpTile> mHeadsUpTileProvider;
-    private final Provider<SyncTile> mSyncTileProvider;
-    private final Provider<PowerShareTile> mPowerShareTileProvider;
-    private final Provider<UsbTetherTile> mUsbTetherTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
+
+    // HAXX
+    private final CustomTile.Builder mCustomTileBuilder;
 
     @Inject
     public QSFactoryImpl(
@@ -139,14 +135,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<MicrophoneToggleTile> microphoneToggleTileProvider,
             Provider<DeviceControlsTile> deviceControlsTileProvider,
             Provider<AlarmTile> alarmTileProvider,
-            Provider<QuickAccessWalletTile> quickAccessWalletTileProvider,
-            Provider<AmbientDisplayTile> ambientDisplayTileProvider,
-            Provider<AODTile> aodTileProvider,
-            Provider<CaffeineTile> caffeineTileProvider,
-            Provider<HeadsUpTile> headsUpTileProvider,
-            Provider<PowerShareTile> powerShareTileProvider,
-            Provider<SyncTile> syncTileProvider,
-            Provider<UsbTetherTile> usbTetherTileProvider) {
+            Provider<QuickAccessWalletTile> quickAccessWalletTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -177,13 +166,8 @@ public class QSFactoryImpl implements QSFactory {
         mDeviceControlsTileProvider = deviceControlsTileProvider;
         mAlarmTileProvider = alarmTileProvider;
         mQuickAccessWalletTileProvider = quickAccessWalletTileProvider;
-        mAmbientDisplayTileProvider = ambientDisplayTileProvider;
-        mAODTileProvider = aodTileProvider;
-        mCaffeineTileProvider = caffeineTileProvider;
-        mHeadsUpTileProvider = headsUpTileProvider;
-        mSyncTileProvider = syncTileProvider;
-        mPowerShareTileProvider = powerShareTileProvider;
-        mUsbTetherTileProvider = usbTetherTileProvider;
+
+        mCustomTileBuilder = customTileBuilderProvider.get();
     }
 
     public QSTile createTile(String tileSpec) {
@@ -252,19 +236,68 @@ public class QSFactoryImpl implements QSFactory {
                 return mQuickAccessWalletTileProvider.get();
             // Additional tiles.
             case "ambient_display":
-                return mAmbientDisplayTileProvider.get();
+                return new AmbientDisplayTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "aod":
-                return mAODTileProvider.get();
+                return new AODTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "caffeine":
-                return mCaffeineTileProvider.get();
+                return new CaffeineTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "heads_up":
-                return mHeadsUpTileProvider.get();
+                return new HeadsUpTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "sync":
-                return mSyncTileProvider.get();
+                return new SyncTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "powershare":
-                return mPowerShareTileProvider.get();
+                return new PowerShareTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
             case "usb_tether":
-                return mUsbTetherTileProvider.get();
+                return new UsbTetherTile(mCustomTileBuilder.mQSHostLazy.get(),
+                        mCustomTileBuilder.mBackgroundLooper,
+                        mCustomTileBuilder.mMainHandler,
+                        mCustomTileBuilder.mFalsingManager,
+                        mCustomTileBuilder.mMetricsLogger,
+                        mCustomTileBuilder.mStatusBarStateController,
+                        mCustomTileBuilder.mActivityStarter,
+                        mCustomTileBuilder.mQSLogger);
         }
 
         // Custom tiles

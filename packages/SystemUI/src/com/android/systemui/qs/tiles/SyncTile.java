@@ -41,8 +41,6 @@ import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 
-import javax.inject.Inject;
-
 /** Quick settings tile: Sync **/
 public class SyncTile extends QSTileImpl<BooleanState> {
 
@@ -51,7 +49,6 @@ public class SyncTile extends QSTileImpl<BooleanState> {
     private Object mSyncObserverHandle = null;
     private boolean mListening;
 
-    @Inject
     public SyncTile(
             QSHost host,
             @Background Looper backgroundLooper,

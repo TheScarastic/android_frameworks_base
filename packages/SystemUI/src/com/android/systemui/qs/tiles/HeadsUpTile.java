@@ -42,8 +42,6 @@ import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 
-import javax.inject.Inject;
-
 /** Quick settings tile: Heads up **/
 public class HeadsUpTile extends QSTileImpl<BooleanState> {
 
@@ -54,7 +52,6 @@ public class HeadsUpTile extends QSTileImpl<BooleanState> {
 
     private final GlobalSetting mSetting;
 
-    @Inject
     public HeadsUpTile(
             QSHost host,
             @Background Looper backgroundLooper,

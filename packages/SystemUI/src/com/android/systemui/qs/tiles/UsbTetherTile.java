@@ -46,8 +46,6 @@ import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 
-import javax.inject.Inject;
-
 /**
  * USB Tether quick settings tile
  */
@@ -65,7 +63,6 @@ public class UsbTetherTile extends QSTileImpl<BooleanState> {
     private boolean mUsbConnected = false;
     private boolean mUsbTetherEnabled = false;
 
-    @Inject
     public UsbTetherTile(
             QSHost host,
             @Background Looper backgroundLooper,

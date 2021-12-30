@@ -66,7 +66,6 @@ public class CaffeineTile extends QSTileImpl<BooleanState> {
     public long mLastClickTime = -1;
     private final Receiver mReceiver = new Receiver();
 
-    @Inject
     public CaffeineTile(
             QSHost host,
             @Background Looper backgroundLooper,

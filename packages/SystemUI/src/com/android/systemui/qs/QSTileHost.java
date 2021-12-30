@@ -51,6 +51,7 @@ import com.android.systemui.qs.external.TileServices;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.settings.UserTracker;
 import com.android.systemui.shared.plugins.PluginManager;
+import com.android.systemui.statusbar.FeatureFlags;
 import com.android.systemui.statusbar.phone.AutoTileManager;
 import com.android.systemui.statusbar.phone.StatusBar;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
@@ -122,7 +123,8 @@ public class QSTileHost implements QSHost, Tunable, PluginListener<QSFactory>, D
             UiEventLogger uiEventLogger,
             UserTracker userTracker,
             SecureSettings secureSettings,
-            CustomTileStatePersister customTileStatePersister
+            CustomTileStatePersister customTileStatePersister,
+            FeatureFlags featureFlags
     ) {
         mIconController = iconController;
         mContext = context;
@@ -240,6 +242,11 @@ public class QSTileHost implements QSHost, Tunable, PluginListener<QSFactory>, D
     @Override
     public Context getUserContext() {
         return mUserContext;
+    }
+
+    @Override
+    public SecureSettings getSecureSettings() {
+        return mSecureSettings;
     }
 
     @Override

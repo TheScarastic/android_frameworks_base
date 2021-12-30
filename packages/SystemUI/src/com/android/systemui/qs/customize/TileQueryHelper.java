@@ -41,6 +41,7 @@ import com.android.systemui.qs.dagger.QSScope;
 import com.android.systemui.qs.external.CustomTile;
 import com.android.systemui.qs.tileimpl.QSTileImpl.DrawableIcon;
 import com.android.systemui.settings.UserTracker;
+import com.android.systemui.statusbar.FeatureFlags;
 import com.android.systemui.util.leak.GarbageMonitor;
 
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class TileQueryHelper {
             Context context,
             UserTracker userTracker,
             @Main Executor mainExecutor,
-            @Background Executor bgExecutor
+            @Background Executor bgExecutor,
+            FeatureFlags featureFlags
     ) {
         mContext = context;
         mMainExecutor = mainExecutor;

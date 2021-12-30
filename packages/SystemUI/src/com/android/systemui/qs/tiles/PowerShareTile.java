@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.R;
+import com.android.systemui.Dependency;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.plugins.ActivityStarter;
@@ -48,8 +49,6 @@ import vendor.lineage.powershare.V1_0.IPowerShare;
 
 import java.util.NoSuchElementException;
 
-import javax.inject.Inject;
-
 public class PowerShareTile extends QSTileImpl<BooleanState>
         implements BatteryController.BatteryStateChangeCallback {
 
@@ -60,7 +59,6 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
     private static final String CHANNEL_ID = "powershare";
     private static final int NOTIFICATION_ID = 273298;
 
-    @Inject
     public PowerShareTile(
             QSHost host,
             @Background Looper backgroundLooper,
@@ -69,8 +67,7 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
             MetricsLogger metricsLogger,
             StatusBarStateController statusBarStateController,
             ActivityStarter activityStarter,
-            QSLogger qsLogger,
-            BatteryController batteryController) {
+            QSLogger qsLogger) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
         mPowerShare = getPowerShare();
@@ -78,7 +75,7 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
             return;
         }
 
-        mBatteryController = batteryController;
+        mBatteryController = Dependency.get(BatteryController.class);
         mNotificationManager = mContext.getSystemService(NotificationManager.class);
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
@@ -95,7 +92,7 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
         mNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         mNotification.visibility = Notification.VISIBILITY_PUBLIC;
 
-        batteryController.addCallback(this);
+        mBatteryController.addCallback(this);
     }
 
     @Override

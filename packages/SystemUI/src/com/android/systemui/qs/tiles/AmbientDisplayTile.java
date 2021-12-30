@@ -48,15 +48,12 @@ import com.android.systemui.qs.SecureSetting;
 import com.android.systemui.settings.UserTracker;
 import com.android.systemui.util.settings.SecureSettings;
 
-import javax.inject.Inject;
-
 /** Quick settings tile: Ambient Display **/
 public class AmbientDisplayTile extends QSTileImpl<BooleanState> {
 
     private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_ambient_display);
     private final SecureSetting mSetting;
 
-    @Inject
     public AmbientDisplayTile(
             QSHost host,
             @Background Looper backgroundLooper,
@@ -65,15 +62,13 @@ public class AmbientDisplayTile extends QSTileImpl<BooleanState> {
             MetricsLogger metricsLogger,
             StatusBarStateController statusBarStateController,
             ActivityStarter activityStarter,
-            QSLogger qsLogger,
-            UserTracker userTracker,
-            SecureSettings secureSettings
+            QSLogger qsLogger
     ) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
 
-        mSetting = new SecureSetting(secureSettings, mHandler, Secure.DOZE_ENABLED,
-                userTracker.getUserId(), 1) {
+        mSetting = new SecureSetting(host.getSecureSettings(), mHandler, Secure.DOZE_ENABLED,
+                host.getUserContext().getUserId(), 1) {
             @Override
             protected void handleValueChanged(int value, boolean observedChange) {
                 handleRefreshState(value);

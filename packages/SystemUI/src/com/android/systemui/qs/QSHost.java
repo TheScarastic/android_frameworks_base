@@ -20,6 +20,7 @@ import com.android.internal.logging.InstanceId;
 import com.android.internal.logging.UiEventLogger;
 import com.android.systemui.plugins.qs.QSTile;
 import com.android.systemui.qs.external.TileServices;
+import com.android.systemui.util.settings.SecureSettings;
 
 import java.util.Collection;
 
@@ -39,6 +40,7 @@ public interface QSHost {
     void removeTile(String tileSpec);
     void removeTiles(Collection<String> specs);
     void unmarkTileAsAutoAdded(String tileSpec);
+    SecureSettings getSecureSettings();
 
     int indexOf(String tileSpec);
 
